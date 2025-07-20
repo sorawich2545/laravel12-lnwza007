@@ -44,6 +44,10 @@ Route::get("/theme", function () {
     return view("theme");
 });
 
+Route::get('/', function () {
+    return redirect('/active/index');
+})->name('index');
+
 Route::get('/active/index', function () {
     return view('active/index');
 })->name('index');
