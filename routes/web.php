@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Product;
+use Illuminate\Container\Attributes\DB;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -76,4 +78,28 @@ Route::get('/active/contact', function () {
     return view('active/contact');
 })->name('contact');
 
+Route::get('query/sql', function () {
+    $products = DB::select("SELECT * FROM products");
+    // $products = DB::select("SELECT * FROM products WHERE price > 100");
+    return view('query-test', compact('products'));
+});
 
+Route::get('query/builder', function () {
+    $products = DB::table('products')->get();
+    // $products = DB::table('products')->where('price', '>', 100)->get();
+    return view('query-test', compact('products'));
+});
+
+Route::get('query/orm', function () {
+    $products = Product::get();
+    // $products = Product::where('price', '>', 100)->get();
+    return view('query-test', compact('products'));
+});
+
+Route::get('product/form', function () {
+    //
+})->name("product.form");
+
+Route::get('barchart', function () {    
+    return view('barchart');
+})->name('barchart');
