@@ -1,105 +1,20 @@
 <?php
 
-use App\Models\Product;
-use Illuminate\Container\Attributes\DB;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MovieNewsController;
 
-Route::get("/gallery", function () {
-    $ant = "https://cdn3.movieweb.com/i/article/Oi0Q2edcVVhs4p1UivwyyseezFkHsq/1107:50/Ant-Man-3-Talks-Michael-Douglas-Update.jpg";
-    $bird = "https://images.indianexpress.com/2021/03/falcon-anthony-mackie-1200.jpg";
-    $cat = "http://www.onyxtruth.com/wp-content/uploads/2017/06/black-panther-movie-onyx-truth.jpg";
-    $god = "https://www.blackoutx.com/wp-content/uploads/2021/04/Thor.jpg";
-    $spider = "https://icdn5.digitaltrends.com/image/spiderman-far-from-home-poster-2-720x720.jpg";
+// Home page
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-    return view("test/index", compact("ant", "bird", "cat", "god", "spider"));
-});
-
-Route::get("/gallery/ant", function () {
-    $ant = "https://cdn3.movieweb.com/i/article/Oi0Q2edcVVhs4p1UivwyyseezFkHsq/1107:50/Ant-Man-3-Talks-Michael-Douglas-Update.jpg";
-    return view("test/ant", compact("ant"));
-});
-
-Route::get("/gallery/bird", function () {
-    $bird = "https://images.indianexpress.com/2021/03/falcon-anthony-mackie-1200.jpg";
-    return view("test/bird", compact("bird"));
-});
-
-Route::get("/gallery/cat", function () {
-    $cat = "http://www.onyxtruth.com/wp-content/uploads/2017/06/black-panther-movie-onyx-truth.jpg";
-    return view("test/cat", compact("cat"));
-});
-
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
+// Movie News routes
+Route::get('/news', [MovieNewsController::class, 'index'])->name('news.index');
+Route::get('/news/search', [MovieNewsController::class, 'search'])->name('news.search');
+Route::get('/news/{id}', [MovieNewsController::class, 'show'])->name('news.show');
 
 
-Route::get("/teacher", function () {
-    return view("teacher");
-});
 
-Route::get("/student", function () {
-    return view("student");
-});
-
-Route::get("/theme", function () {
-    return view("theme");
-});
-
-Route::get('/', function () {
-    return redirect('/active/index');
-})->name('index');
-
-Route::get('/active/index', function () {
-    return view('active/index');
-})->name('index');
-
-Route::get('/active/about', function () {
-    return view('active/about');
-})->name('about');
-
-Route::get('/active/services', function () {
-    return view('active/services');
-})->name('services');
-
-Route::get('/active/portfolio', function () {
-    return view('active/portfolio');
-})->name('portfolio');
-
-Route::get('/active/team', function () {
-    return view('active/team');
-})->name('team');
-
-Route::get('/active/blog', function () {
-    return view('active/blog');
-})->name('blog');
-
-Route::get('/active/contact', function () {
-    return view('active/contact');
-})->name('contact');
-
-Route::get('query/sql', function () {
-    $products = DB::select("SELECT * FROM products");
-    // $products = DB::select("SELECT * FROM products WHERE price > 100");
-    return view('query-test', compact('products'));
-});
-
-Route::get('query/builder', function () {
-    $products = DB::table('products')->get();
-    // $products = DB::table('products')->where('price', '>', 100)->get();
-    return view('query-test', compact('products'));
-});
-
-Route::get('query/orm', function () {
-    $products = Product::get();
-    // $products = Product::where('price', '>', 100)->get();
-    return view('query-test', compact('products'));
-});
-
-Route::get('product/form', function () {
-    //
-})->name("product.form");
-
-Route::get('barchart', function () {    
-    return view('barchart');
-})->name('barchart');
+// Legacy route for backward compatibility
+Route::get('/news-old', function () {
+    return redirect()->route('news.index');
+})->name('news');
