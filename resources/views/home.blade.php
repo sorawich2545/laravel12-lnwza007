@@ -78,10 +78,32 @@
                     </p>
                 </div>
             </div>
-            <div class="mb-3">
-                <input type="text" name="title" id="title" class="form-control rounded-pill shadow-sm"
-                    placeholder="MovieNews" required>
-                <button type="submit" class="btn btn-success mt-3">Search</button>
+            <div class="mb-5">
+                <form action="{{ route('home.search') }}" method="GET" class="row g-3 justify-content-center">
+                    <div class="col-lg-5">
+                        <input type="text" name="q" id="searchQuery" class="form-control form-control-lg rounded-pill shadow-sm"
+                            placeholder="ค้นหาข่าวภาพยนตร์..." value="{{ request('q') }}">
+                    </div>
+                    <div class="col-lg-3">
+                        <select name="genre" id="genre" class="form-select form-select-lg rounded-pill shadow-sm">
+                            <option value="">ทุกประเภท</option>
+                            <option value="Action" {{ request('genre') == 'Action' ? 'selected' : '' }}>Action</option>
+                            <option value="Comedy" {{ request('genre') == 'Comedy' ? 'selected' : '' }}>Comedy</option>
+                            <option value="Drama" {{ request('genre') == 'Drama' ? 'selected' : '' }}>Drama</option>
+                            <option value="Horror" {{ request('genre') == 'Horror' ? 'selected' : '' }}>Horror</option>
+                            <option value="Romance" {{ request('genre') == 'Romance' ? 'selected' : '' }}>Romance</option>
+                            <option value="Sci-Fi" {{ request('genre') == 'Sci-Fi' ? 'selected' : '' }}>Sci-Fi</option>
+                            <option value="Thriller" {{ request('genre') == 'Thriller' ? 'selected' : '' }}>Thriller</option>
+                            <option value="Animation" {{ request('genre') == 'Animation' ? 'selected' : '' }}>Animation</option>
+                            <option value="Documentary" {{ request('genre') == 'Documentary' ? 'selected' : '' }}>Documentary</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-success btn-lg px-4">
+                            <i class="bi bi-search me-2"></i>ค้นหา
+                        </button>
+                    </div>
+                </form>
             </div>
             <div class="row g-4">
                 @foreach ($featuredNews as $index => $article)
@@ -302,6 +324,25 @@
 
         .team-info h6 {
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
         }
     </style>
 @endpush

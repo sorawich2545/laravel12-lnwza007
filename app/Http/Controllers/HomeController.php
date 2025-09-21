@@ -17,4 +17,32 @@ class HomeController extends Controller
         
         return view('home', compact('featuredNews', 'latestNews'));
     }
+
+    /**
+     * Search movie news from home page.
+     */
+    public function search(Request $request)
+    {
+        $query = $request->get('q');
+        $genre = $request->get('genre');
+        
+        $news = MovieNews::query();
+        
+        if ($query) {
+            $news->where(function($q) use ($query) {
+                $q->where('title', 'like', "%{$query}%")
+                  ->orWhere('summary', 'like', "%{$query}%")
+                  ->orWhere('movie_title', 'like', "%{$query}%")
+                  ->orWhere('content', 'like', "%{$query}%");
+            });
+        }
+        
+        if ($genre) {
+            $news->where('genre', $genre);
+        }
+        
+        $news = $news->orderBy('created_at', 'desc')->paginate(9);
+        
+        return view('news', compact('news', 'query', 'genre'));
+    }
 }

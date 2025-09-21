@@ -145,6 +145,52 @@
                         </a>
                     </li>
                     
+                    @auth
+                        <!-- User dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                @if(Auth::user()->isAdmin())
+                                    <i class="bi bi-shield-check me-1 text-warning"></i>
+                                @else
+                                    <i class="bi bi-person-circle me-1"></i>
+                                @endif
+                                {{ Auth::user()->name }}
+                                @if(Auth::user()->isAdmin())
+                                    <span class="badge bg-warning text-dark ms-1">Admin</span>
+                                @endif
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>โปรไฟล์</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>ตั้งค่า</a></li>
+                                @if(Auth::user()->isAdmin())
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-warning" href="#"><i class="bi bi-shield-check me-2"></i>Admin Panel</a></li>
+                                @endif
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item text-danger">
+                                            <i class="bi bi-box-arrow-right me-2"></i>ออกจากระบบ
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @else
+                        <!-- Login/Register buttons -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('login') }}">
+                                <i class="bi bi-box-arrow-in-right me-1"></i>เข้าสู่ระบบ
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-outline-primary ms-2 px-3" href="{{ route('register') }}">
+                                <i class="bi bi-person-plus me-1"></i>สมัครสมาชิก
+                            </a>
+                        </li>
+                    @endauth
+                    
                     <!-- Theme toggle will be added here by JavaScript -->
                 </ul>
             </div>
