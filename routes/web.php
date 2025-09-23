@@ -16,19 +16,33 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [HomeController::class, 'search'])->name('home.search');
 
-// Movie News routes (public)
-Route::get('/news', [MovieNewsController::class, 'index'])->name('news.index');
-Route::get('/news/search', [MovieNewsController::class, 'search'])->name('news.search');
-Route::get('/news/{id}', [MovieNewsController::class, 'show'])->name('news.show');
+// Debug route
+Route::get('/debug', function () {
+    return view('debug');
+})->name('debug');
 
-// Movie News routes (protected - require admin authentication)
-Route::middleware(['auth', 'admin'])->group(function () {
+// Test route
+Route::get('/test', function () {
+    return view('test');
+})->name('test');
+
+// Test news create route (without middleware)
+Route::get('/test-news-create', [MovieNewsController::class, 'create'])->name('test.news.create');
+
+// Movie News routes (protected - require authentication only for now)
+Route::middleware(['auth' 'role:admin'])->group(function () {
     Route::get('/news/create', [MovieNewsController::class, 'create'])->name('news.create');
     Route::post('/news', [MovieNewsController::class, 'store'])->name('news.store');
     Route::get('/news/{id}/edit', [MovieNewsController::class, 'edit'])->name('news.edit');
     Route::put('/news/{id}', [MovieNewsController::class, 'update'])->name('news.update');
     Route::delete('/news/{id}', [MovieNewsController::class, 'destroy'])->name('news.destroy');
 });
+
+// Movie News routes (public)
+Route::get('/news', [MovieNewsController::class, 'index'])->name('news.index');
+Route::get('/news/search', [MovieNewsController::class, 'search'])->name('news.search');
+Route::get('/news/{id}', [MovieNewsController::class, 'show'])->name('news.show');
+
 
 
 

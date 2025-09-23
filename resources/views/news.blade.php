@@ -20,6 +20,25 @@
   <!-- News Section -->
   <section id="news" class="news section">
     <div class="container">
+      <!-- Debug Info -->
+      <div class="row mb-3">
+        <div class="col-12">
+          <div class="alert alert-info">
+            <strong>Debug Info:</strong>
+            @auth
+              Login: ✅ | Name: {{ Auth::user()->name }} | Role: {{ Auth::user()->role }} | 
+              @if(Auth::user()->isAdmin())
+                <span class="text-success">Admin: ✅</span>
+              @else
+                <span class="text-danger">Admin: ❌</span>
+              @endif
+            @else
+              <span class="text-danger">Not Logged In</span>
+            @endauth
+          </div>
+        </div>
+      </div>
+
       <!-- Add News Button (Admin Only) -->
       @auth
         @if(Auth::user()->isAdmin())
@@ -30,7 +49,23 @@
               </a>
             </div>
           </div>
+        @else
+          <div class="row mb-4">
+            <div class="col-12 text-center">
+              <div class="alert alert-warning">
+                คุณไม่ใช่ Admin - ปุ่มเพิ่มข่าวจะไม่แสดง
+              </div>
+            </div>
+          </div>
         @endif
+      @else
+        <div class="row mb-4">
+          <div class="col-12 text-center">
+            <div class="alert alert-danger">
+              กรุณา <a href="{{ route('login') }}">เข้าสู่ระบบ</a> ก่อน
+            </div>
+          </div>
+        </div>
       @endauth
       
       <!-- Success Message -->
