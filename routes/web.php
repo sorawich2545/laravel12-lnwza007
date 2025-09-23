@@ -30,13 +30,13 @@ Route::get('/test', function () {
 Route::get('/test-news-create', [MovieNewsController::class, 'create'])->name('test.news.create');
 
 // Movie News routes (protected)
-// Route::middleware(['auth', 'role:admin'])->group(function () {
-//     Route::get('/news/create', [MovieNewsController::class, 'create'])->name('news.create');
-//     Route::post('/news', [MovieNewsController::class, 'store'])->name('news.store');
-//     Route::get('/news/{id}/edit', [MovieNewsController::class, 'edit'])->name('news.edit');
-//     Route::put('/news/{id}', [MovieNewsController::class, 'update'])->name('news.update');
-//     Route::delete('/news/{id}', [MovieNewsController::class, 'destroy'])->name('news.destroy');
-// });
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/news/create', [MovieNewsController::class, 'create'])->name('news.create');
+    Route::post('/news', [MovieNewsController::class, 'store'])->name('news.store');
+    Route::get('/news/{id}/edit', [MovieNewsController::class, 'edit'])->name('news.edit');
+    Route::put('/news/{id}', [MovieNewsController::class, 'update'])->name('news.update');
+    Route::delete('/news/{id}', [MovieNewsController::class, 'destroy'])->name('news.destroy');
+});
 
 // Movie News routes (public)
 Route::get('/news', [MovieNewsController::class, 'index'])->name('news.index');
